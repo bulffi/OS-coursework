@@ -72,7 +72,8 @@ public class MainScene extends JFrame {
         //System.out.println(UUID.randomUUID().toString());
         String command = inputArea.getText();
         if(command.indexOf("nanoo")==0){
-
+            String out = myConsole.interpret(command);
+            inputArea.setText(out);
         }else {
             String out = myConsole.interpret(command);
             if(out.lastIndexOf("\n")==out.length()-1){
@@ -81,7 +82,9 @@ public class MainScene extends JFrame {
             outPut.append(out+"\n");
             }
             outPutArea.setText(outPut.toString());
+            inputArea.setText("");
         }
+
 
 
 

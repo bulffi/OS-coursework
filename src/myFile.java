@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.UUID;
 
 public class myFile {
@@ -23,7 +24,8 @@ public class myFile {
         createTime = (new Date()).toString().replaceAll(" ","-");
         content = "";
         locations = new LinkedList<>();
-        //location children
+        childrenIDs = new LinkedList<>();
+        //children
 
     }
 
@@ -127,20 +129,23 @@ public class myFile {
                 '}';
     }
 
-    /*try {
-        FileWriter fw = new FileWriter(new File("space.txt"));
-        //写入中文字符时会出现乱码
-        BufferedWriter bw = new BufferedWriter(fw);
-        //BufferedWriter  bw=new BufferedWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File("E:/phsftp/evdokey/evdokey_201103221556.txt")), "UTF-8")));
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        myFile file = (myFile) o;
+        return fullName.equals(file.fullName) &&
+                ID.equals(file.ID) &&
+       //         locations.equals(file.locations) &&
+                createTime.equals(file.createTime);
+       //         Objects.equals(fatherID, file.fatherID) &&
+      //          childrenIDs.equals(file.childrenIDs) &&
+        //        type.equals(file.type) &&
+       //         content.equals(file.content);
+    }
 
-        for(int i =0;i<500;i++){
-            bw.write(i+"\n");
-        }
-        bw.close();
-        fw.close();
-    }catch (Exception e){
-
-    }*/
-
-
+    @Override
+    public int hashCode() {
+        return Objects.hash(fullName, ID, locations, createTime, fatherID, childrenIDs, type, content);
+    }
 }

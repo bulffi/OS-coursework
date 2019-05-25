@@ -14,11 +14,30 @@ public class FileManager {
     }
 
     private static LinkedList<myFile> fileLinkedList;
+
+    public static LinkedList<Integer> getAvailableSpaces() {
+        return availableSpaces;
+    }
+
     private static LinkedList<Integer> availableSpaces;
 
-    private final int totalSize = 500;
+    private static final int totalSize = 500;
 
-
+    public static void reStart(){
+        myFile newRoot = new myFile("/",null,"0");
+        LinkedList<Integer> posi = new LinkedList<>();
+        posi.add(0);
+        newRoot.setLocations(posi);
+        LinkedList<Integer> spa = new LinkedList<>();
+        for(int i = 1;i<totalSize;i++){
+            spa.add(i);
+        }
+        fileLinkedList.clear();
+        fileLinkedList.add(newRoot);
+        availableSpaces.clear();
+        availableSpaces = spa;
+        update();
+    }
 
     public static void load(){
         fileLinkedList = new LinkedList<>();
@@ -110,7 +129,7 @@ public class FileManager {
     }
 
     private static String FileArrayToString(List<myFile> list){
-        if(list==null){
+        if(list==null||list.size()==0){
             return "";
         }
         StringBuilder builder = new StringBuilder();
@@ -184,7 +203,7 @@ public class FileManager {
                 result_helper.append(s+"\n");
             }
 
-            FileOutputStream fos=new FileOutputStream(new File("dir_out.txt"));
+            FileOutputStream fos=new FileOutputStream(new File("dir.txt"));
             OutputStreamWriter osw=new OutputStreamWriter(fos, "UTF-8");
             BufferedWriter  bw=new BufferedWriter(osw);
 
@@ -204,7 +223,7 @@ public class FileManager {
             fos.close();
 
 
-            fos=new FileOutputStream(new File("content_out.txt"));
+            fos=new FileOutputStream(new File("content.txt"));
             osw=new OutputStreamWriter(fos, "UTF-8");
             bw=new BufferedWriter(osw);
 
@@ -216,12 +235,16 @@ public class FileManager {
             osw.close();
             fos.close();
 
-            fos=new FileOutputStream(new File("space_out.txt"));
+            fos=new FileOutputStream(new File("space.txt"));
             osw=new OutputStreamWriter(fos, "UTF-8");
             bw=new BufferedWriter(osw);
 
             //bw.write()
-
+            availableSpaces.sort((a,b)->{
+                if(a>b) return 1;
+                else if(a<b) return -1;
+                return 0;
+            });
            for(Integer ok:availableSpaces){
                bw.write(ok+"\n");
            }
